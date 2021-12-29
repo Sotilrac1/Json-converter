@@ -4,10 +4,21 @@
 
 {% block content %}
 <div class="home">
+    <form action="/" method="post" enctype="multipart/form-data">
 
+        <div class="form-group">
+            <label for="">Json file to Convert</label>
+            <br>
+            <br>
 
-    <h1>This is the home page</h1>
-
+            <input type="file" class="form-control-file" name="uploaded_json" id="uploaded_json" aria-describedby="fileHelpId">
+            
+            <br>
+            <br>
+            <button type="submit" class="btn btn-primary">Convert File</button>
+        </div>
+        
+    </form>
 
 </div>
 
