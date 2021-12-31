@@ -1,3 +1,4 @@
+import os.path
 from flask import Flask, render_template, request, redirect
 import pandas as pd 
 
@@ -5,26 +6,24 @@ import pandas as pd
 
 
 app = Flask(__name__)
-
-app.config["UPLOAD_FOLDER"] = "/static"
+save_path = "/static"
+app.config["UPLOAD_FOLDER"] = save_path
 
 
 
 @app.route('/', methods =["GET","POST"])
 def home():
-    
+    t=''
     if request.method == "POST":
         
         if request.files:
            uploaded_file = request.files["uploaded_json"]
-           
-           pd.read_json(uploaded_file).to_excel("New.xlsx")
-           
-           print("The file has been stored:  ", uploaded_file)
-           
+           name = str(uploaded_file)
+           pd.read_json(uploaded_file).to_excel("changed.xlsx")
+          
         return redirect(request.url) 
         
-    return render_template("home.html")
+    return render_template("home.html", file=t)
 
 @app.route('/about/')
 def about():
