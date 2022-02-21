@@ -1,29 +1,37 @@
-import os.path
-from flask import Flask, render_template, request, redirect
+from fileinput import filename
+import os
+from flask import Flask, render_template, request, redirect, flash 
 import pandas as pd 
+from werkzeug.utils import secure_filename
 
 
-
+UPLOAD_FOLDER = '/uploads'
+ALLOWED_EXTENSIONS = {'json'}
 
 app = Flask(__name__)
-save_path = "/static"
-app.config["UPLOAD_FOLDER"] = save_path
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
 
 @app.route('/', methods =["GET","POST"])
 def home():
-    t=''
+    
     if request.method == "POST":
         
         if request.files:
-           uploaded_file = request.files["uploaded_json"]
-           name = str(uploaded_file)
-           pd.read_json(uploaded_file).to_excel("changed.xlsx")
-          
+            file = request.files["file"]
+            
+            file = pd.read_json(file).to_excel("changed_file.xlsx")
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return redirect(request.url) 
         
-    return render_template("home.html", file=t)
+    return render_template("home.html")
+
+
+
+
+
+
 
 @app.route('/about/')
 def about():
